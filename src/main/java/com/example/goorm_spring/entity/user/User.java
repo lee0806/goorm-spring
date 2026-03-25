@@ -21,4 +21,8 @@ public class User {
     @Column(nullable = false, unique = true) // NOT NULL 조건과 중복 불가
     private String email;
 
+    public void update(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }

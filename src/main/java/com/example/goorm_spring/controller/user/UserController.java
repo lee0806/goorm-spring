@@ -38,4 +38,19 @@ public class UserController {
     public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.status(201).body(userService.save(userRequestDto));
     }
+
+    // 회원 정보 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> update(
+            @PathVariable Long id,
+            @RequestBody UserRequestDto requestDto
+    ) {
+        return ResponseEntity.ok(userService.update(id, requestDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

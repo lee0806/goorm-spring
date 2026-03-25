@@ -6,6 +6,7 @@ import com.example.goorm_spring.entity.user.User;
 import com.example.goorm_spring.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,5 +45,23 @@ public class UserService {
                 .email(requestDto.getEmail())
                 .build();
         return UserResponseDto.from(userRepository.save(user));
+    }
+
+    // 회원정보 업데이트
+    @Transactional
+    public UserResponseDto update(Long id, UserRequestDto requestDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+        user.update(requestDto.getName(), requestDto.getEmail());
+        return UserResponseDto.from(user);
+    }
+
+    // 회원 삭제
+    @Transactional
+    public void delete(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+
+        userRepository.delete(user);
     }
 }
