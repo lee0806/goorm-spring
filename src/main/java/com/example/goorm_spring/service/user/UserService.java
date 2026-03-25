@@ -64,4 +64,27 @@ public class UserService {
 
         userRepository.delete(user);
     }
+
+    // 트랜잭션 테스트
+    @Transactional
+    public void saveRollback() {
+        User user1 = User.builder()
+                .name("테스트 유저 1")
+                .email("test1@test.com")
+                .build();
+        userRepository.save(user1);
+
+        System.out.println("첫 번째 유저를 저장 했습니다." + user1.getName());
+
+        if (true) {
+            throw new RuntimeException("롤백 테스트입니다.");
+        }
+
+        User user2 = User.builder()
+                .name("테스트 유저 2")
+                .email("test2@test.com")
+                .build();
+        userRepository.save(user2);
+
+    }
 }

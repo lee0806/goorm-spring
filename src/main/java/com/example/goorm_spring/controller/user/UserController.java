@@ -53,4 +53,14 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/rollback-test")
+    public ResponseEntity<String> rollbackTest() {
+        try {
+            userService.saveRollback();
+            return ResponseEntity.ok("저장이 되었음.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("예외: " + e.getMessage());
+        }
+    }
 }
